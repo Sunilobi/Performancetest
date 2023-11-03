@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions; // Import ChromeOptions
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -12,8 +13,14 @@ public class PerformanceTest {
 
     @BeforeTest
     public void loadHomePage() {
+        // Set up ChromeOptions for headless mode
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Run in headless mode
+
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-        driver = new ChromeDriver();
+        
+        // Pass ChromeOptions to the ChromeDriver
+        driver = new ChromeDriver(options);
     }
 
     @Test
@@ -26,8 +33,9 @@ public class PerformanceTest {
         long fullyLoadTime = endTimeFullyLoaded - startTime;
         
         // Simulate user interaction (e.g., click a button)
-        WebElement submit=driver.findElement(By.xpath("/html/body/form/input[2]"));
-        		submit.click();
+        WebElement submit = driver.findElement(By.xpath("/html/body/form/input[2]"));
+        submit.click();
+        
         // Time to interact
         long endTimeInteract = System.currentTimeMillis();
         long interactTime = endTimeInteract - startTime;
